@@ -48,157 +48,38 @@ def isSheet(tree, father):
     return False
 
 
-def FilterRowTree(tree, rows, filho_1=None, filho_2=None, filho_3=None, filho_4=None):
+def FilterRowTree(tree, rows, filhos=None):
+    if filhos is None:
+        filhos = []
     lista = []
-    if filho_1:
-        if haveSon(tree[filho_1]):
-            lista += tree[filho_1]
-    if filho_2:
-        if haveSon(tree[filho_2]):
-            lista += tree[filho_2]
-    if filho_3:
-        if haveSon(tree[filho_3]):
-            lista += tree[filho_3]
-    if filho_4:
-        if haveSon(tree[filho_4]):
-            lista += tree[filho_4]
-    novo_filho_1 = None
-    novo_filho_2 = None
-    novo_filho_3 = None
-    novo_filho_4 = None
-    if filho_1:
-        if limitSon(tree[filho_1]):
-            novo_filho_1 = tree[filho_1][0]
-            novo_filho_2 = tree[filho_1][1]
-        elif haveSon(tree[filho_1]):
-            novo_filho_1 = tree[filho_1][0]
-    if filho_2:
-        if limitSon(tree[filho_2]):
-            novo_filho_3 = tree[filho_2][0]
-            novo_filho_4 = tree[filho_2][1]
-        elif haveSon(tree[filho_2]):
-            novo_filho_3 = tree[filho_2][0]
-    if novo_filho_2 == None:
-        if filho_3:
-            if haveSon(tree[filho_3]):
-                novo_filho_2 = tree[filho_3][0]
-    if novo_filho_4 == None:
-        if filho_4:
-            if haveSon(tree[filho_4]):
-                novo_filho_4 = tree[filho_4][0]
-    if filho_1 == None and filho_2 == None and filho_3 == None and filho_4 == None:
+    novos_filhos = []
+    for filho in filhos:
+        if filho is not None:
+            filho = int(filho)
+            if haveSon(tree[filho]):
+                new_list = []
+                for x in tree[filho]:
+                    if type(x) == int:
+                        if isLeftSon(filho, x):
+                            new_list.append(x)
+                        else:
+                            new_list.append(x)
+                    else:
+                        new_list.append(x)
+                lista += new_list
+            if limitSon(tree[filho]):
+                novos_filhos.append(tree[filho][0])
+                novos_filhos.append(tree[filho][1])
+            elif haveSon(tree[filho]):
+                novos_filhos.append(tree[filho][0])
+        else:
+            novos_filhos.append(None)
+    if filhos == [] or len(filhos) == filhos.count(None):
         return rows
     else:
-        if lista != []:
-            rows.append(lista)
-        FilterRowTree(tree, rows, novo_filho_1, novo_filho_2, novo_filho_3, novo_filho_4)
-
-
-def FilterRowTreeToDraw(tree, rows, filho_1=None, filho_2=None, filho_3=None, filho_4=None):
-    lista = []
-
-    if filho_1 is not None and filho_1 != "dead":
-        if haveSon(tree[filho_1]):
-            new_list = []
-            for x in tree[filho_1]:
-                if type(x) == int:
-                    if isLeftSon(filho_1, x):
-                        new_list.append(str(x))
-                    else:
-                        new_list.append(str(x))
-                else:
-                    new_list.append(x)
-            lista += new_list
-    elif filho_1 == "dead":
-        new_list = ["dead", "dead"]
-        lista += new_list
-    if filho_2 is not None and filho_2 != "dead":
-        if haveSon(tree[filho_2]):
-            new_list = []
-            for x in tree[filho_2]:
-                if type(x) == int:
-                    if isLeftSon(filho_2, x):
-                        new_list.append(str(x))
-                    else:
-                        new_list.append(str(x))
-                else:
-                    new_list.append(x)
-            lista += new_list
-    elif filho_2 == "dead":
-        new_list = ["dead", "dead"]
-        lista += new_list
-    if filho_3 is not None and filho_3 != "dead":
-        if haveSon(tree[filho_3]):
-            new_list = []
-            for x in tree[filho_3]:
-                if type(x) == int:
-                    if isLeftSon(filho_3, x):
-                        new_list.append(str(x))
-                    else:
-                        new_list.append(str(x))
-                else:
-                    new_list.append(x)
-            lista += new_list
-    elif filho_3 == "dead":
-        new_list = ["dead", "dead"]
-        lista += new_list
-    if filho_4 is not None and filho_4 != "dead":
-        if haveSon(tree[filho_4]):
-            new_list = []
-            for x in tree[filho_4]:
-                if type(x) == int:
-                    if isLeftSon(filho_4, x):
-                        new_list.append(str(x))
-                    else:
-                        new_list.append(str(x))
-                else:
-                    new_list.append(x)
-            lista += new_list
-    elif filho_4 == "dead":
-        new_list = ["dead", "dead"]
-        lista += new_list
-    novo_filho_1 = None
-    novo_filho_2 = None
-    novo_filho_3 = None
-    novo_filho_4 = None
-    if filho_1 is not None and filho_1 != "dead":
-        if limitSon(tree[filho_1]):
-            novo_filho_1 = tree[filho_1][0]
-            novo_filho_2 = tree[filho_1][1]
-        elif haveSon(tree[filho_1]):
-            novo_filho_1 = tree[filho_1][0]
-    elif filho_1 == "dead":
-        novo_filho_1 = "dead"
-        novo_filho_2 = "dead"
-    if filho_2 is not None and filho_2 != "dead":
-        if limitSon(tree[filho_2]):
-            novo_filho_3 = tree[filho_2][0]
-            novo_filho_4 = tree[filho_2][1]
-        elif haveSon(tree[filho_2]):
-            novo_filho_3 = tree[filho_2][0]
-    elif filho_2 == "dead":
-        novo_filho_3 = "dead"
-        novo_filho_4 = "dead"
-    if novo_filho_2 == None:
-        if filho_3 is not None and filho_3 != "dead":
-            if haveSon(tree[filho_3]):
-                novo_filho_2 = tree[filho_3][0]
-        elif filho_3 == "dead":
-            novo_filho_2 = "dead"
-    if novo_filho_4 == None:
-        if filho_4 is not None and filho_4 != "dead":
-            if haveSon(tree[filho_4]):
-                novo_filho_4 = tree[filho_4][0]
-        elif filho_4 == "dead":
-            novo_filho_4 == "dead"
-
-    if (filho_1 == None and filho_2 == None and filho_3 == None and filho_4 == None) or \
-            (filho_1 == "dead" and filho_2 == "dead" and filho_3 == "dead" and filho_4 == "dead"):
-        return rows
-    else:
-        if lista != []:
-            rows.append(lista)
-        FilterRowTreeToDraw(tree, rows, novo_filho_1, novo_filho_2, novo_filho_3, novo_filho_4)
+        if len(novos_filhos) != novos_filhos.count(None):
+            rows.append(novos_filhos)
+        FilterRowTree(tree, rows, novos_filhos)
 
 
 def FilterRowTreeWithDeadSon(tree, rows, filhos=None):
@@ -242,8 +123,8 @@ def limitSon(tree):
     return False
 
 
-def haveSon(tree):
-    if len(tree) > 0:
+def haveSon(cls):
+    if len(cls) > 0:
         return True
     return False
 
@@ -254,7 +135,7 @@ def isUniqueSon(tree):
     return False
 
 
-def compensacao_tamanho_string(string, side):
+def string_size_compensation(string, side):
     if len(string.strip()) == 1 and side == 0:
         return string + " "
     elif len(string.strip()) == 1 and side == 1:
@@ -264,16 +145,38 @@ def compensacao_tamanho_string(string, side):
 
 
 class AVL:
+    """
 
+    This class create dict tree's and balance using AVL algorithm.
+
+    In ::parameter:: tree: Parse a list of nodes, like a: [10, 58, 65, 15]
+
+    and to print the binary tree just call your object in the print
+
+    tree = AVL([10, 58, 65, 15])
+    print(tree)
+
+    To insert new Nodes in the tree, just call method insertNode(your_node)
+
+    the nodes have be a integer number.
+
+    """
     def __init__(self, tree: list):
         self.tree = tree
         self.length_tree = len(tree)
         self.dict_tree = {}
         self.dict_tree_with_dead_sheets = {}
         self.dict_balance = {}
+        self.generateDictTree(0)
+        self.generateCountDictBalance()
+
+    def __repr__(self):
+        return self.ShowBinaryTree()
 
     def insertNode(self, node):
         self.tree.append(node)
+        self.generateDictTree(0)
+        self.generateCountDictBalance()
 
     def _insertSon(self, fat, s):
         if limitSon(self.dict_tree[fat]):
@@ -316,13 +219,10 @@ class AVL:
     def ShowBinaryTree(self):
         # Inserção dos espaços abaixo.
         first_value = self.tree[0]
-        same_row = [[first_value]]
-        FilterRowTree(self.dict_tree, same_row, first_value)
         first_value_space = "{}".format(first_value)
         self.generateTreeWithDeadSheets()
         RowsWithDeadSons = [[first_value_space]]
         FilterRowTreeWithDeadSon(self.dict_tree_with_dead_sheets, RowsWithDeadSons, [first_value])
-        same_row.reverse()
         RowsWithDeadSons.reverse()
         arv_draw = ""
         space_before = ""
@@ -345,29 +245,29 @@ class AVL:
                             RowsWithDeadSons[i][ii] = " " + RowsWithDeadSons[i][ii]
 
                 if ii == 0 and son != "dead":
-                    node_with_space = compensacao_tamanho_string(RowsWithDeadSons[i][ii], 0)
+                    node_with_space = string_size_compensation(RowsWithDeadSons[i][ii], 0)
                     sequence_values += space_before + node_with_space
 
                 elif ii == 0 and son == "dead":
                     sequence_values += space_before + " "
 
                 elif i == 0 and ii == 0 and ii % 2 == 0 and son != "dead":
-                    node_with_space = compensacao_tamanho_string(RowsWithDeadSons[i][ii], 0)
+                    node_with_space = string_size_compensation(RowsWithDeadSons[i][ii], 0)
                     sequence_values += space_between_brothers + node_with_space
 
                 elif i == 0 and ii == 0 and ii % 2 == 0 and son == "dead":
                     sequence_values += space_between_brothers + " "
 
                 elif i == 0 and ii == 0 and ii % 2 == 1 and son != "dead":
-                    node_with_space = compensacao_tamanho_string(RowsWithDeadSons[i][ii], 1)
+                    node_with_space = string_size_compensation(RowsWithDeadSons[i][ii], 1)
                     sequence_values += space_between_primos + node_with_space
 
                 elif i == 0 and ii == 0 and ii % 2 == 1 and son == "dead":
                     sequence_values += " " + space_between_primos
 
                 elif ii != 0 and son != "dead":
-                    node_with_space = (compensacao_tamanho_string(RowsWithDeadSons[i][ii], 0) if ii % 2 == 0 else
-                                       compensacao_tamanho_string(RowsWithDeadSons[i][ii], 1))
+                    node_with_space = (string_size_compensation(RowsWithDeadSons[i][ii], 0) if ii % 2 == 0 else
+                                       string_size_compensation(RowsWithDeadSons[i][ii], 1))
                     sequence_values += space_between_primos + node_with_space
 
                 elif ii != 0 and son == "dead":
@@ -449,7 +349,6 @@ class AVL:
         for son in self.tree:
             if self.tree[index_father] != son:
                 self._insertSon(self.tree[index_father], son)
-
 
     def _generateDictBalance(self, node):
         self.dict_balance[node] = {"left": 0, "right": 0}
